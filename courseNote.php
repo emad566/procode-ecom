@@ -50,3 +50,4 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
 #=======================================================================
 
 
+test
