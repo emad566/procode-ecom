@@ -48,3 +48,18 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
 #=======================================================================
 # 04
 #=======================================================================
+*** Set Public files (Template Files):
+    1- copy files from ahmed emam reposatory (public/assets) to public folder (assets)
+    2- Delete folder in public/assets/images (Its are not needed)
+*** Set resoures view folders:
+    1- Create folders in resources/view folder
+                    +dashboard
+                        +includes
+                            +alerts
+                    +site
+                        +includes
+                            +alerts
+                    +layouts 
+                        -admin.blade.php //(Copy it from the reposatory)
+                        -login.blade.php //(Copy it from the reposatory)
+                        
