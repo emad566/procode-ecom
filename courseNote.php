@@ -63,3 +63,13 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
                         -admin.blade.php //(Copy it from the reposatory)
                         -login.blade.php //(Copy it from the reposatory)
                         
+#=======================================================================
+# 05
+#=======================================================================
+*** Delet if statment from body tag
+*** Copy includes forlder form resources/view/admin to resources/view/dashboard
+*** Delete all {{  }} in sidebar.blade.php
+*** Test view in browser with creating route in web.php 
+    Route::get('/test', function () {
+        return view('layouts/admin');
+    });
