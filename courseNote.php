@@ -59,17 +59,17 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
                     +site
                         +includes
                             +alerts
-                    +layouts 
+                    +layouts
                         -admin.blade.php //(Copy it from the reposatory)
                         -login.blade.php //(Copy it from the reposatory)
-                        
+
 #=======================================================================
 # 05
 #=======================================================================
 *** Delet if statment from body tag
 *** Copy includes forlder form resources/view/admin to resources/view/dashboard
 *** Delete all {{  }} in sidebar.blade.php
-*** Test view in browser with creating route in web.php 
+*** Test view in browser with creating route in web.php
     Route::get('/test', function () {
         return view('layouts/admin');
     });
@@ -90,7 +90,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
             $table->timestamps();
         });
 
-    -> open app\providers\AppServiceProvider.php 
+    -> open app\providers\AppServiceProvider.php
         - Then add/change to be:
             use Illuminate\Support\Facades\Schema;
             public function boot()
@@ -101,7 +101,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
     -> php artisan migrate
 
 
-*** In file: config/auth 
+*** In file: config/auth
     1- Create new guard named admin in gards to be:
     'guards' => [
         'web' => [
@@ -120,12 +120,12 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
             'hash' => false,
         ],
     ],
-    
-    2- Create a new provider for the new guard admin in providers, 
-        and change path to the new Model User.php path 
+
+    2- Create a new provider for the new guard admin in providers,
+        and change path to the new Model User.php path
         and create new Model named Admin.php and change path to reffer to it
         to be:
-        
+
         'providers' => [
             'users' => [
                 'driver' => 'eloquent',
@@ -142,3 +142,30 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
             //     'table' => 'users',
             // ],
         ],
+
+#=======================================================================
+# 07: admin authentication - guard and tinker account to login
+#=======================================================================
+*** php artisan make:model Models\\Admin
+    Then change it to:
+
+    class Admin extends Model
+    {
+        protected $table = 'admins';
+        protected $guarded=[]; // to include all fields
+        public $timestamps = true;
+    }
+
+*** In routes\admin
+    Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin'], function () {
+
+    });
+
+*** Create first admin from tinker
+    php artisan tinker
+    $admin = new App\Models\Admin
+    $admin->name ='Emadeldeen'
+    $admin->email ='emade09@gmail.com'
+    $admin->password =bcrypt('12345678')
+    $admin->save()
+
