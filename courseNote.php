@@ -79,6 +79,28 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
 #=======================================================================
 *** Create the database and link it in .env file
 *** Run php artisan config:cache // to load the new config settings
+*** To create admins table from migration run:
+    -> php artisan make:migration create_admins_table --create=admins
+
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        });
+
+    -> open app\providers\AppServiceProvider.php 
+        - Then add/change to be:
+            use Illuminate\Support\Facades\Schema;
+            public function boot()
+            {
+                Schema::defaultStringLength(191);
+            }
+
+    -> php artisan migrate
+
+
 *** In file: config/auth 
     1- Create new guard named admin in gards to be:
     'guards' => [
