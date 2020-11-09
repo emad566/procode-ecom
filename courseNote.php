@@ -73,3 +73,50 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
     Route::get('/test', function () {
         return view('layouts/admin');
     });
+
+#=======================================================================
+# 06: make admin table using migration - eCommerce multi languages and tenancy
+#=======================================================================
+*** Create the database and link it in .env file
+*** Run php artisan config:cache // to load the new config settings
+*** In file: config/auth 
+    1- Create new guard named admin in gards to be:
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+    ],
+    
+    2- Create a new provider for the new guard admin in providers, 
+        and change path to the new Model User.php path 
+        and create new Model named Admin.php and change path to reffer to it
+        to be:
+        
+        'providers' => [
+            'users' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\User::class,
+            ],
+
+            'users' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\Admin::class,
+            ],
+
+            // 'users' => [
+            //     'driver' => 'database',
+            //     'table' => 'users',
+            // ],
+        ],
