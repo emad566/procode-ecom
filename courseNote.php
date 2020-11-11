@@ -1,10 +1,10 @@
 #=======================================================================
-# 01
+# 001
 #=======================================================================
 php artisan --version
 
 #=======================================================================
-# 02
+# 002
 #=======================================================================
 git init
 git add README.md
@@ -17,7 +17,7 @@ git push -u origin master                   // // push in a master to hold all v
 // Go to settings>branches  ans set the master to be the default branch
 
 #=======================================================================
-# 03
+# 003
 #=======================================================================
 *** Set Routes
 - copy web to site.php
@@ -46,7 +46,7 @@ https://github.com/yajra/laravel-datatables
 php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider"
 
 #=======================================================================
-# 04
+# 004
 #=======================================================================
 *** Set Public files (Template Files):
     1- copy files from ahmed emam reposatory (public/assets) to public folder (assets)
@@ -64,7 +64,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
                         -login.blade.php //(Copy it from the reposatory)
 
 #=======================================================================
-# 05
+# 005
 #=======================================================================
 *** Delet if statment from body tag
 *** Copy includes forlder form resources/view/admin to resources/view/dashboard
@@ -75,7 +75,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
     });
 
 #=======================================================================
-# 06: make admin table using migration - eCommerce multi languages and tenancy
+# 006: make admin table using migration - eCommerce multi languages and tenancy
 #=======================================================================
 *** Create the database and link it in .env file
 *** Run php artisan config:cache // to load the new config settings
@@ -144,7 +144,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
         ],
 
 #=======================================================================
-# 07: admin authentication - guard and tinker account to login
+# 007: admin authentication - guard and tinker account to login
 #=======================================================================
 *** php artisan make:model Models\\Admin
     Then change it to:
@@ -170,7 +170,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
     $admin->save()
 
 #=======================================================================
-# 08: prevent admin routes using admin middle ware
+# 008: prevent admin routes using admin middle ware
 #=======================================================================
 *** In routes\admin: Add prefix to route in admin to be:
     Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin', 'prefix'=>'admin'], function () {
@@ -200,3 +200,31 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
             return "please: logIn";
         })->name("admin.login");
     });
+
+
+#=======================================================================
+#009: admin login form and route- make admin login form and route
+#=======================================================================
+*** php artisan make:controller Dashboard\\LoginController
+
+*** In: routes\admin: change to
+    Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+        Route::get('login', 'LoginController@login')->name("admin.login");
+    });
+
+*** create Folder view\dashoard\auth
+*** create file view\dashoard\auth\login.blade.php
+
+*** In Dashboard\LoginController.php: add
+    public function login()
+    {
+        return view('dashboard.auth.login');
+    }
+
+*** In view\dashoard\auth\login.blade.php: add login form: is in: github
+
+*** In: routes\admin: add route for post login
+Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
+
+*** In Chrome Browser install extension: JSON Formator:
+    https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa

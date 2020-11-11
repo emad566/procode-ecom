@@ -20,8 +20,7 @@ Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin', 'prefix'=>
 });
 
 Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
-    Route::get('login', function () {
-        return "please: logIn";
-    })->name("admin.login");
+    Route::get('login', 'LoginController@login')->name("admin.login");
+    Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
 });
 
