@@ -169,3 +169,34 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
     $admin->password =bcrypt('12345678')
     $admin->save()
 
+#=======================================================================
+# 08: prevent admin routes using admin middle ware
+#=======================================================================
+*** In routes\admin: Add prefix to route in admin to be:
+    Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin', 'prefix'=>'admin'], function () {
+        Route::get('users', function () {
+            return "in admin";
+        })->name("admin.login");
+    });
+
+*** In routes\admin: Make route for none auth
+    Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+
+    });
+
+*** In: app\Http\Middleware\Authenticate.php: add rule to use auth:admin middleware if is admin
+    to be:
+    use Request;
+    if (! $request->expectsJson()) {
+        if(Request::is('admin/*'))
+            return route('admin.login');
+        else
+            return route('login');
+    }
+
+*** In: routes\admin: add login route, to be:
+    Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+        Route::get('login', function () {
+            return "please: logIn";
+        })->name("admin.login");
+    });

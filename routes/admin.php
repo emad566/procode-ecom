@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin'], function () {
-
+Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin', 'prefix'=>'admin'], function () {
+    Route::get('users', function () {
+        return "in admin";
+    })->name("admin.login");
 });
+
+Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+    Route::get('login', function () {
+        return "please: logIn";
+    })->name("admin.login");
+});
+
