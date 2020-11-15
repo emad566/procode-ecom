@@ -228,3 +228,13 @@ Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
 
 *** In Chrome Browser install extension: JSON Formator:
     https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa
+
+#=======================================================================
+#010: admin attempt guard login and request
+#=======================================================================
+*** php artisan make:Request AdminLoginRequest
+*** in AdminLoginRequest.php
+    authorize()/true
+*** Install Extenstion:PHP Namespace Resolver
+    https://marketplace.visualstudio.com/items?itemName=MehediDracula.php-namespace-resolver
+*** In Admin.php model let it extend:
