@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin', 'prefix'=>'admin'], function () {
-    Route::get('users', function () {
-        return "in admin";
-    })->name("admin.login");
+Route::group(['namespace' => 'Dashboard', 'middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
+
+    Route::get('/', 'DashboardController@index')->name('admin.dashboard');  // the first page
+    Route::get('logout', 'LoginController@logout')->name('admin.logout');
 });
 
-Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+Route::group(['namespace' => 'Dashboard', 'middleware' => 'guest:admin', 'prefix'=>'admin'], function () {
     Route::get('login', 'LoginController@login')->name("admin.login");
     Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
 });

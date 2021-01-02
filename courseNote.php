@@ -111,7 +111,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
 
         'admin' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'admins',
         ],
 
         'api' => [
@@ -132,7 +132,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
                 'model' => App\Models\User::class,
             ],
 
-            'users' => [
+            'admins' => [
                 'driver' => 'eloquent',
                 'model' => App\Models\Admin::class,
             ],
@@ -149,7 +149,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
 *** php artisan make:model Models\\Admin
     Then change it to:
 
-    class Admin extends Model
+    class Admin extends Authenticatable
     {
         protected $table = 'admins';
         protected $guarded=[]; // to include all fields
@@ -238,3 +238,13 @@ Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
 *** Install Extenstion:PHP Namespace Resolver
     https://marketplace.visualstudio.com/items?itemName=MehediDracula.php-namespace-resolver
 *** In Admin.php model let it extend:
+
+#=======================================================================
+#011: finish admin login to dashboard after success authentication
+#=======================================================================
+*** Create AdminDashboard route
+*** php artisan make:controller DashboardController
+*** Creat DashboardController index function
+
+
+Minutes 9:30
