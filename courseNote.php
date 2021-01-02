@@ -25,7 +25,7 @@ git status              //git status on new files on local
 # 003
 #=======================================================================
 *** Set Routes
-- copy web to site.php
+- copy web to site.php 002_After_Setting_module
 - copy web to admin.php
 - app>Providers>RoutServiceProvider.php  // in function map()
     $this->mapSiteRoutes();
@@ -271,4 +271,12 @@ Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
 #=======================================================================
 php artisan make:model Models\Setting
 php artisan make:model Models\SettingTranslation
+
+#=======================================================================
+#015 finish Seeding default settings to database using seeder
+#=======================================================================
+php artisan make:seeder settingDatabaseSeeder
+*** change setting module for seeding and translations
+
+php artisan db:seed --class=settingDatabaseSeeder
 
