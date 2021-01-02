@@ -19,6 +19,8 @@ git push -u origin master                   // // push in a master to hold all v
 git branch              //git current branch on local
 git status              //git status on new files on local
 
+
+
 #=======================================================================
 # 003
 #=======================================================================
@@ -249,5 +251,24 @@ Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
 *** php artisan make:controller DashboardController
 *** Creat DashboardController index function
 
+#=======================================================================
+#012: upload source code to GitHub branch ,prepare dashboard index
+#=======================================================================
 
-Minutes 9:30
+
+#=======================================================================
+#013  project Settings -Shipping Methods- -eCommerce multi languages ,tenancy
+#=======================================================================
+*** create_settings_table
+*** create_settings_translatable_table
+*** cascaed:
+        $table->unique(['setting_id', 'locale']);
+        $table->foreign('setting_id')->references('id')->on('settings')->onDelete('cascade');
+***
+
+#=======================================================================
+#014  Seeding default settings to database table using seeder
+#=======================================================================
+php artisan make:model Models\Setting
+php artisan make:model Models\SettingTranslation
+
