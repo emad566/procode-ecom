@@ -16,6 +16,9 @@ git push -u origin begin                  // push in a branch
 git push -u origin master                   // // push in a master to hold all version of project
 // Go to settings>branches  ans set the master to be the default branch
 
+git branch              //git current branch on local
+git status              //git status on new files on local
+
 #=======================================================================
 # 003
 #=======================================================================
