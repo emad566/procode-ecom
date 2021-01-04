@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShippingsRequest;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 use DB;
 
 class SettingsController extends Controller
@@ -41,17 +40,17 @@ class SettingsController extends Controller
         try {
             $shipping_method = Setting::find($id);
 
-            DB::beginTransaction();
+            // DB::beginTransaction();
             $shipping_method->update(['plain_value' => $request->plain_value]);
             //save translations
             $shipping_method->value = $request->value;
             $shipping_method->save();
 
-            DB::commit();
+            // DB::commit();
             return redirect()->back()->with(['success' => 'تم التحديث بنجاح']);
         } catch (\Exception $ex) {
             return redirect()->back()->with(['error' => 'هناك خطا ما يرجي المحاولة فيما بعد']);
-            DB::rollback();
+            // DB::rollback();
         }
 
     }

@@ -297,6 +297,10 @@ php artisan db:seed --class=settingDatabaseSeeder
 *** 9:26 MINUTS: Helpers File creation
 
 #=======================================================================
-#19 translate: create langauges folder
+#20
 #=======================================================================
+How to get translated value based on current locale_get_display_language
 
+#=======================================================================
+#21 edit and update shipping methods Validation part2
+#=======================================================================

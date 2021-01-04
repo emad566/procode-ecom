@@ -17,7 +17,7 @@ Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
-    
+
     Route::group(['namespace' => 'Dashboard', 'middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');  // the first page
