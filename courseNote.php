@@ -304,3 +304,8 @@ How to get translated value based on current locale_get_display_language
 #=======================================================================
 #21 edit and update shipping methods Validation part2
 #=======================================================================
+
+#=======================================================================
+#26 categories and subcategories migrations and seeder
+#=======================================================================
+Minutes 7:36
