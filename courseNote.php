@@ -1,10 +1,10 @@
 #=======================================================================
-# 01
+# 001
 #=======================================================================
 php artisan --version
 
 #=======================================================================
-# 02
+# 002
 #=======================================================================
 git init
 git add README.md
@@ -16,11 +16,16 @@ git push -u origin begin                  // push in a branch
 git push -u origin master                   // // push in a master to hold all version of project
 // Go to settings>branches  ans set the master to be the default branch
 
+git branch              //git current branch on local
+git status              //git status on new files on local
+
+
+
 #=======================================================================
-# 03
+# 003
 #=======================================================================
 *** Set Routes
-- copy web to site.php
+- copy web to site.php 002_After_Setting_module
 - copy web to admin.php
 - app>Providers>RoutServiceProvider.php  // in function map()
     $this->mapSiteRoutes();
@@ -46,8 +51,271 @@ https://github.com/yajra/laravel-datatables
 php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider"
 
 #=======================================================================
-# 04
+# 004
+#=======================================================================
+*** Set Public files (Template Files):
+    1- copy files from ahmed emam reposatory (public/assets) to public folder (assets)
+    2- Delete folder in public/assets/images (Its are not needed)
+*** Set resoures view folders:
+    1- Create folders in resources/view folder
+                    +dashboard
+                        +includes
+                            +alerts
+                    +site
+                        +includes
+                            +alerts
+                    +layouts
+                        -admin.blade.php //(Copy it from the reposatory)
+                        -login.blade.php //(Copy it from the reposatory)
+
+#=======================================================================
+# 005
+#=======================================================================
+*** Delet if statment from body tag
+*** Copy includes forlder form resources/view/admin to resources/view/dashboard
+*** Delete all {{  }} in sidebar.blade.php
+*** Test view in browser with creating route in web.php
+    Route::get('/test', function () {
+        return view('layouts/admin');
+    });
+
+#=======================================================================
+# 006: make admin table using migration - eCommerce multi languages and tenancy
+#=======================================================================
+*** Create the database and link it in .env file
+*** Run php artisan config:cache // to load the new config settings
+*** To create admins table from migration run:
+    -> php artisan make:migration create_admins_table --create=admins
+
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        });
+
+    -> open app\providers\AppServiceProvider.php
+        - Then add/change to be:
+            use Illuminate\Support\Facades\Schema;
+            public function boot()
+            {
+                Schema::defaultStringLength(191);
+            }
+
+    -> php artisan migrate
+
+
+*** In file: config/auth
+    1- Create new guard named admin in gards to be:
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+    ],
+
+    2- Create a new provider for the new guard admin in providers,
+        and change path to the new Model User.php path
+        and create new Model named Admin.php and change path to reffer to it
+        to be:
+
+        'providers' => [
+            'users' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\User::class,
+            ],
+
+            'admins' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\Admin::class,
+            ],
+
+            // 'users' => [
+            //     'driver' => 'database',
+            //     'table' => 'users',
+            // ],
+        ],
+
+#=======================================================================
+# 007: admin authentication - guard and tinker account to login
+#=======================================================================
+*** php artisan make:model Models\\Admin
+    Then change it to:
+
+    class Admin extends Authenticatable
+    {
+        protected $table = 'admins';
+        protected $guarded=[]; // to include all fields
+        public $timestamps = true;
+    }
+
+*** In routes\admin
+    Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin'], function () {
+
+    });
+
+*** Create first admin from tinker
+    php artisan tinker
+    $admin = new App\Models\Admin
+    $admin->name ='Emadeldeen'
+    $admin->email ='emade09@gmail.com'
+    $admin->password =bcrypt('12345678')
+    $admin->save()
+
+#=======================================================================
+# 008: prevent admin routes using admin middle ware
+#=======================================================================
+*** In routes\admin: Add prefix to route in admin to be:
+    Route::group(['namespace' => 'Dashboard', 'middleware'=>'auth:admin', 'prefix'=>'admin'], function () {
+        Route::get('users', function () {
+            return "in admin";
+        })->name("admin.login");
+    });
+
+*** In routes\admin: Make route for none auth
+    Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+
+    });
+
+*** In: app\Http\Middleware\Authenticate.php: add rule to use auth:admin middleware if is admin
+    to be:
+    use Request;
+    if (! $request->expectsJson()) {
+        if(Request::is('admin/*'))
+            return route('admin.login');
+        else
+            return route('login');
+    }
+
+*** In: routes\admin: add login route, to be:
+    Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+        Route::get('login', function () {
+            return "please: logIn";
+        })->name("admin.login");
+    });
+
+
+#=======================================================================
+#009: admin login form and route- make admin login form and route
+#=======================================================================
+*** php artisan make:controller Dashboard\\LoginController
+
+*** In: routes\admin: change to
+    Route::group(['namespace' => 'Dashboard', 'prefix'=>'admin'], function () {
+        Route::get('login', 'LoginController@login')->name("admin.login");
+    });
+
+*** create Folder view\dashoard\auth
+*** create file view\dashoard\auth\login.blade.php
+
+*** In Dashboard\LoginController.php: add
+    public function login()
+    {
+        return view('dashboard.auth.login');
+    }
+
+*** In view\dashoard\auth\login.blade.php: add login form: is in: github
+
+*** In: routes\admin: add route for post login
+Route::post('login', 'LoginController@postLogin')->name("admin.postLogin");
+
+*** In Chrome Browser install extension: JSON Formator:
+    https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa
+
+#=======================================================================
+#010: admin attempt guard login and request
+#=======================================================================
+*** php artisan make:Request AdminLoginRequest
+*** in AdminLoginRequest.php
+    authorize()/true
+*** Install Extenstion:PHP Namespace Resolver
+    https://marketplace.visualstudio.com/items?itemName=MehediDracula.php-namespace-resolver
+*** In Admin.php model let it extend:
+
+#=======================================================================
+#011: finish admin login to dashboard after success authentication
+#=======================================================================
+*** Create AdminDashboard route
+*** php artisan make:controller DashboardController
+*** Creat DashboardController index function
+
+#=======================================================================
+#012: upload source code to GitHub branch ,prepare dashboard index
 #=======================================================================
 
 
-test
+#=======================================================================
+#013  project Settings -Shipping Methods- -eCommerce multi languages ,tenancy
+#=======================================================================
+*** create_settings_table
+*** create_settings_translatable_table
+*** cascaed:
+        $table->unique(['setting_id', 'locale']);
+        $table->foreign('setting_id')->references('id')->on('settings')->onDelete('cascade');
+***
+
+#=======================================================================
+#014  Seeding default settings to database table using seeder
+#=======================================================================
+php artisan make:model Models\Setting
+php artisan make:model Models\SettingTranslation
+
+#=======================================================================
+#015 finish Seeding default settings to database using seeder
+#=======================================================================
+php artisan make:seeder settingDatabaseSeeder
+*** change setting module for seeding and translations
+
+php artisan db:seed --class=settingDatabaseSeeder
+
+#=======================================================================
+#016
+#=======================================================================
+
+#=======================================================================
+#017
+#=======================================================================
+*** To malk laravel relaad new files run:
+    composer dump-autoload
+    php artisan config:cache
+
+#=======================================================================
+#18
+#=======================================================================
+*** 9:26 MINUTS: Helpers File creation
+
+#=======================================================================
+#20
+#=======================================================================
+How to get translated value based on current locale_get_display_language
+
+#=======================================================================
+#21 edit and update shipping methods Validation part2
+#=======================================================================
+
+#=======================================================================
+#26 categories and subcategories migrations and seeder usaing Factory
+#=======================================================================
+php artisan make:migration create_categories_table --create=categories
+php artisan make:migration create_category_translations_table --create=category_translations
+php artisan migrate
+php artisan make:model Models\Category
+php artisan make:model Models\CategoryTranslation
+
+php artisan make:factory CategoryFactory --model=Models\Category
+php artisan make:seeder CategoryDatabaseSeeder
+
+composer dump-auoload
+php artisan db:seed --class=CategoryDatabaseSeeder
