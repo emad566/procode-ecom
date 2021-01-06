@@ -306,6 +306,16 @@ How to get translated value based on current locale_get_display_language
 #=======================================================================
 
 #=======================================================================
-#26 categories and subcategories migrations and seeder
+#26 categories and subcategories migrations and seeder usaing Factory
 #=======================================================================
-Minutes 7:36
+php artisan make:migration create_categories_table --create=categories
+php artisan make:migration create_category_translations_table --create=category_translations
+php artisan migrate
+php artisan make:model Models\Category
+php artisan make:model Models\CategoryTranslation
+
+php artisan make:factory CategoryFactory --model=Models\Category
+php artisan make:seeder CategoryDatabaseSeeder
+
+composer dump-auoload
+php artisan db:seed --class=CategoryDatabaseSeeder
