@@ -319,3 +319,16 @@ php artisan make:seeder CategoryDatabaseSeeder
 
 composer dump-auoload
 php artisan db:seed --class=CategoryDatabaseSeeder
+
+#=======================================================================
+#27 categories CRUD part 1
+#=======================================================================
+//$category->makeVisible('translations');
+
+#=======================================================================
+#30 Subcategories CRUD part 1
+#=======================================================================
+https://meduim.com          // laravel code snippts : need VPN or write: https://meduim.com.
+php artisan db:seed --class=SubCategoryDatabaseSeeder
+
+

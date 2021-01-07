@@ -1,14 +1,15 @@
 <?php
-use Illuminate\Database\Seeder;
+
 use App\Models\Setting;
-class settingDatabaseSeeder extends Seeder
+use Illuminate\Database\Seeder;
+
+class SettingDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-
     public function run()
     {
         Setting::setMany([
@@ -24,9 +25,9 @@ class settingDatabaseSeeder extends Seeder
             'outer_shipping_cost' => 0,
             'free_shipping_cost' => 0,
             'translatable' => [
-                'store_name' => 'متجر عماد',
+                'store_name' => 'متجر الامامي',
                 'free_shipping_label' => 'توصيل مجاني',
-                'local_label' => 'توصيل محلي',
+                'local_label' => 'توصيل داخلي',
                 'outer_label' => 'توصيل خارجي',
             ],
         ]);
