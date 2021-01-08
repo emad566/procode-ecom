@@ -30,8 +30,6 @@ class ProfileController extends Controller
 
             if ($request->filled('password')) {
                 $request->merge(['password' => bcrypt($request->password)]);
-            }else{
-                unset($request['password']);
             }
 
             unset($request['id']);

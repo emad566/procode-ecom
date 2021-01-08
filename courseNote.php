@@ -331,4 +331,24 @@ php artisan db:seed --class=CategoryDatabaseSeeder
 https://meduim.com          // laravel code snippts : need VPN or write: https://meduim.com.
 php artisan db:seed --class=SubCategoryDatabaseSeeder
 
+#=======================================================================
+#33 Brands CRUD part 1
+#=======================================================================
+php artisan make:migration create_brands_table --create=brands
+php artisan make:migration create_brand_translations_table --create=brand_translations
+php artisan migrate
 
+php artisan make:model Models\Brand
+php artisan make:model Models\BrandTranslation
+php artisan migrate
+
+php artisan make:migration add_photo_column_to_brands_table --table=brands
+php artisan migrate
+
+
+php artisan migrate
+
+03:48 Learn file system
+
+php artisan config:cache
+composer dump-auoload
