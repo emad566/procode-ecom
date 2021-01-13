@@ -352,3 +352,30 @@ php artisan migrate
 
 php artisan config:cache
 composer dump-auoload
+
+
+#=======================================================================
+#36 Tags CRUD part 1
+#=======================================================================
+
+php artisan make:migration create_tags_table --create=tags
+php artisan make:migration create_tag_translations_table --create=tag_translations
+
+php artisan migrate
+
+php artisan make:model Models\Tag
+php artisan make:model Models\TagTranslation
+
+#=======================================================================
+#39 Apply OOP Traits , Enumerations and Final concepts
+#=======================================================================
+11:30 : Enumerations class
+Install spatie/laravel-enum : https://github.com/spatie/laravel-enum
+composer require spatie/laravel-enum
+
+
+#=======================================================================
+#40 Repository Design pattern using interface
+#=======================================================================
+
+0:0 minuts
