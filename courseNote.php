@@ -390,3 +390,16 @@ $table->softDeletes();
 
 php artisan migrate
 php artisan DB:seed --calss=ProductDatabaseSeeder
+
+#=======================================================================
+#42 Product CRUD general information :images Table
+#=======================================================================
+
+php artisan make:migration create_product_images_table --create=product_images
+php artisan migrate
+
+Drop down multiSelect inout at: 28:00 minut
+add texteditor for text area at: 43:00
+Drop down multiSelect inout Validate 44:30
+
+
