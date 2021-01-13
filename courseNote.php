@@ -378,4 +378,15 @@ composer require spatie/laravel-enum
 #40 Repository Design pattern using interface
 #=======================================================================
 
-0:0 minuts
+#=======================================================================
+#41 Product Migrations, seeders and models
+#=======================================================================
+php artisan make:migration create_products_table --create=products
+php artisan make:migration create_product_translations_table --create=product_translations
+php artisan make:migration create_product_categories_table --create=product_categories
+php artisan make:migration create_product_tags_table --create=product_tags
+
+$table->softDeletes();
+
+php artisan migrate
+php artisan DB:seed --calss=ProductDatabaseSeeder

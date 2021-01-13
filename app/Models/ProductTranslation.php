@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SettingTranslation extends Model
+class ProductTranslation extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = [];
-    public $timestamps = false;
-
-
+    protected $fillable = ['name', 'description', 'short_description'];
+    public  $timestamps=false;
 }
